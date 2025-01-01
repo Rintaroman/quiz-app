@@ -6,7 +6,8 @@ export const test = () => {
         correct: string;
     };
 
-    const quiz: Quiz = [
+// QuizをQuiz[]にしてエラー解消
+    const quiz: Quiz[] = [
         {
             question: 'どの動物がもっとも長寿でしょう？',
             answers:[
@@ -43,14 +44,13 @@ export const test = () => {
                 'オーストラリア'
             ],
             correct: '中南米' 
-        }
-        
+        } 
     ];
 
-
-    const quizLength = quiz.length;
-    let quizIndex = 0;
-    let score = 0;
+// quiz.lengthを(Object.keys(quiz).length)に変更
+    const quizLength = (Object.keys(quiz).length);
+    let quizIndex: number = 0;
+    let score: number = 0;
     
     
     const $button = document.getElementsByTagName('button');
@@ -58,7 +58,11 @@ export const test = () => {
     
     // 問題と解答の選択肢に文字を代入
     const setupQuiz = () => {
-        document.getElementById('js-question').textContent = quiz[quizIndex].question;
+        // interface Quiz {
+        //     [key: string]: number
+        // };
+    
+        document.getElementById('js-question')!.textContent = quiz[quizIndex].question;
         $button[0].textContent = quiz[quizIndex].answers[0];
         $button[1].textContent = quiz[quizIndex].answers[1];
         $button[2].textContent = quiz[quizIndex].answers[2];
@@ -67,17 +71,17 @@ export const test = () => {
     
     setupQuiz();
     
- 
+
     
-    const clickHandler = (e) => {
-        if(quiz[quizIndex].correct === e.target.textContent){
+    const clickHandler = (e: MouseEvent) => {
+        if(quiz[quizIndex].correct === ((e.target! as Element).textContent)){
             window.alert('正解！');
             score++;
         }else{
             window.alert('不正解！');
         }
     
-        quizIndex++;
+        quizIndex++;   
     
         if(quizIndex < quizLength){
             // まだ問題が残っていれば
